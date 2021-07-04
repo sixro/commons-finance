@@ -1,5 +1,6 @@
 package com.github.sixro.commons.finance;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +9,9 @@ import java.util.Objects;
 /**
  * Represents an Open-High-Low-Close.
  */
-public final class OHLC {
+public final class OHLC implements Comparable<OHLC>, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -75,6 +78,11 @@ public final class OHLC {
      */
     public BigDecimal getClose() {
         return close;
+    }
+
+    @Override
+    public int compareTo(OHLC o) {
+        return dateTime.compareTo(o.dateTime);
     }
 
     @Override
