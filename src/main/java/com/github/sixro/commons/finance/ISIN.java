@@ -30,7 +30,7 @@ public final class ISIN implements Comparable<ISIN>, Serializable {
      * @param code an ISIN code
      * @return an {@code ISIN}
      */
-    public static ISIN fromString(String code) {
+    public static ISIN valueOf(String code) {
         return new ISIN(code);
     }
 
