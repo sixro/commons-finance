@@ -11,15 +11,13 @@ import java.util.Objects;
 
 /**
  * Represents a <a href="https://en.wikipedia.org/wiki/Percentage" >percentage</a> useful to make your core domain more expressive.
- *
- * @author <a href="mailto:me@sixro.net" >Sixro</a>
- * @since 1.0
  */
-public class Percentage implements Comparable<Percentage>, Serializable {
+@SuppressWarnings("PMD.ExcessivePublicCount")
+public final class Percentage implements Comparable<Percentage>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final BigDecimal _100 = BigDecimal.valueOf(100);
+    private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     private static final Map<Integer, Percentage> CACHED = newCachedPercentages();
 
@@ -36,16 +34,16 @@ public class Percentage implements Comparable<Percentage>, Serializable {
      * <p>
      * Even this factory method tries to take advantage of the cached values.
      * </p>
-     * 
+     *
      * @param textualRepresentation a percentage textual representation
      * @return a percentage
-     * 
+     *
      * @see #of(int)
      */
     public static Percentage of(String textualRepresentation) {
         DecimalFormat decimalFormat = newDecimalFormat();
         BigDecimal p = (BigDecimal) decimalFormat.parse(textualRepresentation, new ParsePosition(0));
-        BigDecimal asInt = p.multiply(_100);
+        BigDecimal asInt = p.multiply(ONE_HUNDRED);
         boolean isInteger = asInt.stripTrailingZeros().scale() <= 0;
         return isInteger ? of(asInt.intValue()) : new Percentage(p);
     }
@@ -86,7 +84,7 @@ public class Percentage implements Comparable<Percentage>, Serializable {
         if (percentage != null)
             return percentage;
 
-        return new Percentage(BigDecimal.valueOf(v).divide(Percentage._100));
+        return new Percentage(BigDecimal.valueOf(v).divide(Percentage.ONE_HUNDRED));
     }
 
     /**
@@ -112,6 +110,11 @@ public class Percentage implements Comparable<Percentage>, Serializable {
         return multiplied.setScale(scale, roundingMode);
     }
 
+    /**
+     * Returns this percentage as {@code BigDecimal}.
+     *
+     * @return this percentage as {@code BigDecimal}
+     */
     public BigDecimal toBigDecimal() {
         return value;
     }
@@ -146,8 +149,9 @@ public class Percentage implements Comparable<Percentage>, Serializable {
         return dm;
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     private static Map<Integer, Percentage> newCachedPercentages() {
-        Map<Integer, Percentage> map = new HashMap<>(25);
+        Map<Integer, Percentage> map = new HashMap<>();
         for (int i = 0; i < 100; i += 5)
             storePercentage(map, i);
         storePercentage(map, 100);
@@ -156,7 +160,7 @@ public class Percentage implements Comparable<Percentage>, Serializable {
     }
 
     private static void storePercentage(Map<Integer, Percentage> map, int i) {
-        BigDecimal p = BigDecimal.valueOf(i).divide(_100, 2, RoundingMode.HALF_UP);
+        BigDecimal p = BigDecimal.valueOf(i).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
         map.put(i, new Percentage(p));
     }
 

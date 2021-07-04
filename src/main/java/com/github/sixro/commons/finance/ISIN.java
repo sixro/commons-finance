@@ -9,13 +9,13 @@ import java.util.Objects;
  * <p>
  * The validation has been done following <a href="https://www.isin.org/education/" >this specification</a>.
  * </p>
- *
- * @author <a href="mailto:me@sixro.net" >Sixro</a>
- * @since 1.0
  */
-public class ISIN implements Comparable<ISIN>, Serializable {
+public final class ISIN implements Comparable<ISIN>, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private static final int START_OF_NUMS = 55;
+    private static final int THRESHOLD = 10;
 
     private final String code;
 
@@ -26,6 +26,7 @@ public class ISIN implements Comparable<ISIN>, Serializable {
 
     /**
      * Create an {@code ISIN} from its textual representation (for example {@code IE00BKM4GZ66}).
+     *
      * @param code an ISIN code
      * @return an {@code ISIN}
      */
@@ -33,7 +34,7 @@ public class ISIN implements Comparable<ISIN>, Serializable {
         return new ISIN(code);
     }
 
-    /**
+    /*
      * See https://www.isin.org/education/
      */
     private void validate() {
@@ -41,10 +42,11 @@ public class ISIN implements Comparable<ISIN>, Serializable {
         textual = reverse(textual);
 
         int calculatedCheckDigit = calculateCheckDigit(textual);
-        int checkDigit = Integer.parseInt(code.substring(code.length() -1));
+        int checkDigit = Integer.parseInt(code.substring(code.length() - 1));
 
         if (checkDigit != calculatedCheckDigit)
-            throw new IllegalArgumentException("ISIN " + code + " is not a valid code (check digit " + checkDigit + " differs from calculated digit " + calculatedCheckDigit);
+            throw new IllegalArgumentException("ISIN " + code + " is not a valid code (check digit " + checkDigit +
+                " differs from calculated digit " + calculatedCheckDigit);
     }
 
     @Override
@@ -59,6 +61,10 @@ public class ISIN implements Comparable<ISIN>, Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ISIN))
+            return false;
         return Objects.equals(code, ((ISIN) obj).code);
     }
 
@@ -69,11 +75,11 @@ public class ISIN implements Comparable<ISIN>, Serializable {
 
     private String convertToNumbers() {
         String textual = "";
-        for (int i = 0; i < code.length() -1; i++) {
+        for (int i = 0; i < code.length() - 1; i++) {
             char ch = code.charAt(i);
             textual += (Character.isDigit(ch))
                     ? Character.toString(ch)
-                    : ((int) ch) -55;
+                    : ((int) ch) - START_OF_NUMS;
         }
         return textual;
     }
@@ -88,15 +94,14 @@ public class ISIN implements Comparable<ISIN>, Serializable {
             int v = Integer.parseInt(textual.substring(i, i + 1));
             if (i % 2 == 0) {
                 v *= 2;
-                sum += v % 10;
-                sum += v / 10;
-            }
-            else {
+                sum += v % THRESHOLD;
+                sum += v / THRESHOLD;
+            } else {
                 sum += v;
             }
         }
 
-        return (10 - (sum %10)) %10;
+        return (THRESHOLD - (sum % THRESHOLD)) % THRESHOLD;
     }
 
 }
