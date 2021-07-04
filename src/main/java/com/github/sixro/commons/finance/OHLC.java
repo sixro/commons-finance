@@ -28,17 +28,12 @@ public final class OHLC {
      * @param close the close price
      */
     public OHLC(LocalDateTime dateTime, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close) {
-        if (dateTime == null)
-            throw new IllegalArgumentException("dateTime is required");
-        if (open == null)
-            throw new IllegalArgumentException("open is required");
-        if (high == null)
-            throw new IllegalArgumentException("high is required");
-        if (low == null)
-            throw new IllegalArgumentException("low is required");
-        if (close == null)
-            throw new IllegalArgumentException("close is required");
-        
+        Objects.requireNonNull(dateTime, "dateTime is required");
+        Objects.requireNonNull(open, "open is required");
+        Objects.requireNonNull(high, "high is required");
+        Objects.requireNonNull(low, "low is required");
+        Objects.requireNonNull(close, "close is required");
+
         this.dateTime = dateTime;
         this.open = open;
         this.high = high;
@@ -46,18 +41,38 @@ public final class OHLC {
         this.close = close;
     }
 
+    /**
+     * Returns the open price.
+     *
+     * @return the open price
+     */
     public BigDecimal getOpen() {
         return open;
     }
 
+    /**
+     * Returns the high price.
+     *
+     * @return the high price
+     */
     public BigDecimal getHigh() {
         return high;
     }
 
+    /**
+     * Returns the low price.
+     *
+     * @return the low price
+     */
     public BigDecimal getLow() {
         return low;
     }
 
+    /**
+     * Returns the close price.
+     *
+     * @return the close price
+     */
     public BigDecimal getClose() {
         return close;
     }
@@ -67,7 +82,8 @@ public final class OHLC {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OHLC ohlc = (OHLC) o;
-        return Objects.equals(dateTime, ohlc.dateTime) && Objects.equals(open, ohlc.open) && Objects.equals(high, ohlc.high) && Objects.equals(low, ohlc.low) && Objects.equals(close, ohlc.close);
+        return Objects.equals(dateTime, ohlc.dateTime) && Objects.equals(open, ohlc.open) && Objects.equals(high, ohlc.high)
+            && Objects.equals(low, ohlc.low) && Objects.equals(close, ohlc.close);
     }
 
     @Override
@@ -75,6 +91,7 @@ public final class OHLC {
         return Objects.hash(dateTime, open, high, low, close);
     }
 
+    @Override
     public String toString() {
         return "<O=" + open + ", H=" + high + ", L=" + low + ", C=" + close + "@"
             + DATE_TIME_FORMATTER.format(dateTime) + ">";

@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OHLCTest {
 
     @Test public void validate() {
-        assertThrows(IllegalArgumentException.class, () -> new OHLC(null, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE));
-        assertThrows(IllegalArgumentException.class, () -> new OHLC(LocalDateTime.now(), null, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE));
-        assertThrows(IllegalArgumentException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, null, BigDecimal.ONE, BigDecimal.ONE));
-        assertThrows(IllegalArgumentException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, BigDecimal.ONE, null, BigDecimal.ONE));
-        assertThrows(IllegalArgumentException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, null));
+        assertThrows(NullPointerException.class, () -> new OHLC(null, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE));
+        assertThrows(NullPointerException.class, () -> new OHLC(LocalDateTime.now(), null, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE));
+        assertThrows(NullPointerException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, null, BigDecimal.ONE, BigDecimal.ONE));
+        assertThrows(NullPointerException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, BigDecimal.ONE, null, BigDecimal.ONE));
+        assertThrows(NullPointerException.class, () -> new OHLC(LocalDateTime.now(), BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE, null));
     }
 
     @Test public void valid() {
