@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        My custom rules
+    </description>
+
+    <!-- NOTE: cyclomatic complexity of 10 is too much. Reduced to 7 -->
+    <rule ref="category/java/design.xml/CyclomaticComplexity" >
+        <properties>
+            <property name="classReportLevel" value="50" />
+            <property name="methodReportLevel" value="7" />
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/TooManyFields">
+        <properties>
+            <property name="maxfields" value="5" />
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/ExcessivePublicCount">
+        <properties>
+            <property name="minimum" value="8.0" />
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/DataClass" />
+    <rule ref="category/java/design.xml/ImmutableField">
+        <properties>
+            <property name="ignoredAnnotations" value="lombok.Setter|lombok.Getter|lombok.Builder|lombok.Data|lombok.RequiredArgsConstructor|lombok.AllArgsConstructor|lombok.Value|lombok.NoArgsConstructor" />
+        </properties>
+    </rule>
+    <rule ref="category/java/design.xml/UseObjectForClearerAPI" />
+    <!--
+    <rule ref="category/java/design.xml/LawOfDemeter" />
+      -->
+    <rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal" />
+
+</ruleset>
