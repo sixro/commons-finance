@@ -9,6 +9,7 @@ import java.util.Objects;
 /**
  * Represents an Open-High-Low-Close.
  */
+@SuppressWarnings("PMD.ExcessivePublicCount")
 public final class OHLC implements Comparable<OHLC>, Serializable {
 
     private static final long serialVersionUID = 1L;
