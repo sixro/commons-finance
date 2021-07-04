@@ -47,7 +47,7 @@ public final class OHLC implements Comparable<OHLC>, Serializable {
 
     /**
      * Returns the date and time.
-     * 
+     *
      * @return the date and time
      */
     public LocalDateTime getDateTime() {
