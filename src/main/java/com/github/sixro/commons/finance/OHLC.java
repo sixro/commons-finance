@@ -9,12 +9,12 @@ import java.util.Objects;
 /**
  * Represents an Open-High-Low-Close.
  */
-@SuppressWarnings("PMD.ExcessivePublicCount")
-public final class OHLC implements Comparable<OHLC>, Serializable {
+@SuppressWarnings({ "checkstyle:DesignForExtension", "PMD.ExcessivePublicCount" })
+public class OHLC implements Comparable<OHLC>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    protected static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private final LocalDateTime dateTime;
     private final BigDecimal open;
