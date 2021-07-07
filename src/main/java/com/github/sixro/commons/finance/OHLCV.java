@@ -23,6 +23,8 @@ public final class OHLCV extends OHLC {
      */
     public OHLCV(LocalDateTime dateTime, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, long volume) {
         super(dateTime, open, high, low, close);
+        if (volume < 0)
+            throw new IllegalArgumentException("volume must be greater than or equal to 0");
         this.volume = volume;
     }
 

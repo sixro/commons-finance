@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Represents an Open-High-Low-Close.
@@ -37,12 +39,42 @@ public class OHLC implements Comparable<OHLC>, Serializable {
         Objects.requireNonNull(high, "high is required");
         Objects.requireNonNull(low, "low is required");
         Objects.requireNonNull(close, "close is required");
+        validateTrue(high.compareTo(open) >= 0, "high must be greater than or equal to open");
+        validateTrue(low.compareTo(open) <= 0, "low must be less than or equal to open");
+        validateTrue(high.compareTo(close) >= 0, "high must be greater than or equal to close");
+        validateTrue(low.compareTo(close) <= 0, "low must be less than or equal to close");
 
         this.dateTime = dateTime;
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
+    }
+
+    /**
+     * Returns the highest low in specified collection.
+     *
+     * @param collection a collection of {@code OHLC}
+     * @return highest low
+     */
+    public static BigDecimal highestLow(Collection<? extends OHLC> collection) {
+        Optional<BigDecimal> optMax = collection.stream()
+            .map(OHLC::getLow)
+            .max(Comparable::compareTo);
+        return optMax.get();
+    }
+
+    /**
+     * Returns the highest high in specified collection.
+     *
+     * @param collection a collection of OHLCVs
+     * @return highest high
+     */
+    public static BigDecimal highestHigh(Collection<? extends OHLC> collection) {
+        Optional<BigDecimal> optMax = collection.stream()
+            .map(OHLC::getHigh)
+            .max(Comparable::compareTo);
+        return optMax.get();
     }
 
     /**
@@ -113,6 +145,11 @@ public class OHLC implements Comparable<OHLC>, Serializable {
     public String toString() {
         return "<O=" + open + ", H=" + high + ", L=" + low + ", C=" + close + "@"
             + DATE_TIME_FORMATTER.format(dateTime) + ">";
+    }
+
+    private static void validateTrue(boolean condition, String msg) {
+        if (!condition)
+            throw new IllegalArgumentException(msg);
     }
 
 }
