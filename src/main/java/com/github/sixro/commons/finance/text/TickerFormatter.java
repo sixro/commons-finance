@@ -2,8 +2,6 @@ package com.github.sixro.commons.finance.text;
 
 import com.github.sixro.commons.finance.Ticker;
 
-import java.util.Formattable;
-
 /**
  * Represents a ticker formatter.
  */

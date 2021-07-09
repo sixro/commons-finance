@@ -6,6 +6,9 @@ import com.github.sixro.commons.finance.Ticker;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a ticker formatter for FinecoBank.
+ */
 public final class FinecoBankTickerFormatter implements TickerFormatter {
 
     private static final Map<Market, String> TEXT_BY_MARKET = new HashMap<>();
@@ -20,6 +23,12 @@ public final class FinecoBankTickerFormatter implements TickerFormatter {
         MARKET_BY_TEXT.put("N", Market.NYSE);
         MARKET_BY_TEXT.put("O", Market.NASDAQ);
         MARKET_BY_TEXT.put("MI", Market.ITALY);
+    }
+
+    /**
+     * Creates a fineco bank ticker formatter.
+     */
+    public FinecoBankTickerFormatter() {
     }
 
     @Override
