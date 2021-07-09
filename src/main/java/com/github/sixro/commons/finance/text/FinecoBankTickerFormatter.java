@@ -3,39 +3,34 @@ package com.github.sixro.commons.finance.text;
 import com.github.sixro.commons.finance.Market;
 import com.github.sixro.commons.finance.Ticker;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Represents a ticker formatter for FinecoBank.
  */
 public final class FinecoBankTickerFormatter implements TickerFormatter {
 
-    private static final Map<Market, String> TEXT_BY_MARKET = new HashMap<>();
-    static {
-        TEXT_BY_MARKET.put(Market.NYSE, "N");
-        TEXT_BY_MARKET.put(Market.NASDAQ, "O");
-        TEXT_BY_MARKET.put(Market.ITALY, "MI");
-    }
+    private final MarketFormatter marketFormatter;
 
-    private static final Map<String, Market> MARKET_BY_TEXT = new HashMap<>();
-    static {
-        MARKET_BY_TEXT.put("N", Market.NYSE);
-        MARKET_BY_TEXT.put("O", Market.NASDAQ);
-        MARKET_BY_TEXT.put("MI", Market.ITALY);
+    /**
+     * Creates a FinecoBank ticker formatter using a short text for market.
+     */
+    public FinecoBankTickerFormatter() {
+        this(new ShortTextFinecoBankMarketFormatter());
     }
 
     /**
-     * Creates a fineco bank ticker formatter.
+     * Creates a FinecoBank ticker formatter using the specified market formatter.
+     *
+     * @param marketFormatter the market formatter
      */
-    public FinecoBankTickerFormatter() {
+    public FinecoBankTickerFormatter(MarketFormatter marketFormatter) {
+        this.marketFormatter = marketFormatter;
     }
 
     @Override
     public String format(Ticker ticker) {
         String code = ticker.getCode();
         Market market = ticker.getMarket();
-        String marketAsText = TEXT_BY_MARKET.get(market);
+        String marketAsText = marketFormatter.format(market);
         return String.format("%s.%s", code, marketAsText);
     }
 
@@ -44,9 +39,7 @@ public final class FinecoBankTickerFormatter implements TickerFormatter {
         int idx = text.indexOf(".");
         String code = text.substring(0, idx);
         String marketAsText = text.substring(idx + 1);
-        Market market = MARKET_BY_TEXT.get(marketAsText);
-        if (market == null)
-            throw new UnsupportedOperationException("market not supported '" + marketAsText + "'");
+        Market market = marketFormatter.parse(marketAsText);
         return Ticker.valueOf(code, market);
     }
 

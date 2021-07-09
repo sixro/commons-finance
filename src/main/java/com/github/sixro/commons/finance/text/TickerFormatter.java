@@ -3,7 +3,7 @@ package com.github.sixro.commons.finance.text;
 import com.github.sixro.commons.finance.Ticker;
 
 /**
- * Represents a ticker formatter.
+ * Represents a ticker formatter and parser.
  */
 public interface TickerFormatter {
 

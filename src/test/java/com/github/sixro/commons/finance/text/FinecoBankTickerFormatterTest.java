@@ -4,7 +4,8 @@ import com.github.sixro.commons.finance.Market;
 import com.github.sixro.commons.finance.Ticker;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FinecoBankTickerFormatterTest {
 
@@ -32,7 +33,7 @@ public class FinecoBankTickerFormatterTest {
     }
 
     @Test public void parse_fails() {
-        assertThrows(UnsupportedOperationException.class, () -> formatter.parse("CYCN.XYZ"));
+        assertThrows(IllegalArgumentException.class, () -> formatter.parse("CYCN.XYZ"));
     }
 
     @Test public void parse_nyse() {
